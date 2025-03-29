@@ -1,0 +1,705 @@
+#:import Factory kivy.factory.Factory 
+
+#:import md_icons kivymd.icon_definitions.md_icons
+#:import images_path kivymd.images_path
+#:set box_radius [75,75,75,75]
+ScreenController:
+
+<ScreenController>:
+    MainScreen:
+        id: main
+    GraphView:
+        id: graphv
+
+<MainScreen>:
+    name: 'main'
+
+    FloatLayout:
+        MDBoxLayout:
+            index:0
+            orientation: 'vertical'
+            TOP_BAR:
+                id:top
+            MDBoxLayout:
+                id:window_controller
+                
+            BOTTOM_BAR:
+        FloatLayout:
+            id:hover_controller
+            MDBoxLayout:
+
+                id:acc
+                index:3
+                orientation: 'vertical'
+                
+                
+                
+            BoxLayout:
+                index:5
+                orientation: 'vertical'
+                id:floating
+                Widget:
+                    index: 7
+                    size_hint: 1,.05
+        
+#
+<OFFSET>:
+    id: waste
+    index: 5
+    size_hint: 1,0.05
+
+    
+<GraphView>:
+    name: 'graphv'
+
+    MDBoxLayout:
+        index:0
+        orientation: 'vertical'
+        TOP_BAR:
+            id:top
+        MDBoxLayout:
+            id:window_controller
+        BOTTOM_BAR:
+    FloatLayout:
+        id:hover_controller
+        MDBoxLayout:
+
+            id:acc
+            index:3
+            orientation: 'vertical'
+            
+            
+            
+        BoxLayout:
+            index:5
+            orientation: 'vertical'
+            id:floating
+            Widget:
+                index: 7
+                size_hint: 1,.05
+        
+<GraphController>:
+    orientation: 'vertical'
+    MDBoxLayout:
+        orientation: 'horizontal'
+        MDBoxLayout:
+            orientation: 'vertical'
+
+            id: top_left
+            canvas.before:            
+                Color:
+                    rgba: 1,0,0,1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+        # MDBoxLayout:
+        #     orientation: 'vertical'
+        #     id: top_right
+        #     canvas.before:            
+        #         Color:
+        #             rgba: 0,1,0,1
+        #         Rectangle:
+        #             size: self.size
+        #             pos: self.pos
+    # MDBoxLayout:
+    #     orientation: 'horizontal'
+    #     MDBoxLayout:
+    #         orientation: 'vertical'
+    #         id: bot_left
+    #         canvas.before:            
+    #             Color:
+    #                 rgba: 0,0,1,1
+    #             Rectangle:
+    #                 size: self.size
+    #                 pos: self.pos
+    #     MDBoxLayout:
+    #         orientation: 'vertical'
+    #         id:bot_right
+    #         canvas.before:            
+    #             Color:
+    #                 rgba: 0,1,1,1
+    #             Rectangle:
+    #                 size: self.size
+    #                 pos: self.pos
+<PLOT_SETTINGS>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: "10dp"
+#------------------Name--------------------#
+        MDBoxLayout:
+            size_hint_y: .2
+            orientation:'horizontal'
+            id: Edit_name
+            canvas.before:            
+                Color:
+                    rgba: 0.9,0.9,0.9,1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+#------------------Category--------------------#
+        MDBoxLayout:
+            orientation:'vertical'
+            spacing: 3
+            size_hint_y:.35
+            
+            Label:
+                size_hint_y:.15
+                text: 'Category'
+                text_color_normal:'0,0,0,1'
+
+            MDBoxLayout:
+                spacing: 5
+                orientation: 'vertical'
+                canvas.before:            
+                    Color:
+                        rgba: 0.9,0.9,0.9,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                MDBoxLayout:
+                    orientation: 'horizontal'
+                    index:2
+                    MyToggleButton:
+                        size_hint:1,1
+                        id: __slave__
+
+                        background_normal: .3,.3,.3,1
+                        font_color_normal: 1,1,1,1
+                        font_color_down: 1,1,1,1
+                        background_down: 1,0,0,1
+                        text: 'Cell'
+                        on_state: print('yes') if self.state == 'down' else print('no')
+                            
+
+                    MyToggleButton:
+                        size_hint:1,1
+                        id: __segment__
+                        text: 'Segment'
+                        background_normal: .3,.3,.3,1
+                        font_color_normal: 1,1,1,1
+                        font_color_down: 1,1,1,1
+                        background_down: 1,0,0,1
+                        on_state: print('yes') if self.state == 'down' else print('no')
+
+                    MyToggleButton:
+                        size_hint:1,1
+                        id: __box__
+                        background_normal: .3,.3,.3,1
+                        font_color_normal: 1,1,1,1
+                        font_color_down: 1,1,1,1
+                        background_down: 1,0,0,1
+                        text: 'Box'
+                        on_state: print('yes') if self.state == 'down' else print('no')
+                        MDBoxLayout:
+                MDBoxLayout:
+                    spacing: '10dp'
+                    orientation:'horizontal'
+                    id: Edit_id
+#------------------Type--------------------#
+        MDBoxLayout:
+            orientation:'vertical'
+            spacing: 3
+            size_hint: 1,.5
+            
+            Label:
+                size_hint_y:.1
+                index: 1
+                text: 'Type'
+                
+            MDBoxLayout:
+                id: Type
+                orientation: 'vertical'
+                canvas.before:            
+                    Color:
+                        rgba: 0.9,0.9,0.9,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                
+#------------------Screen--------------------#
+        MDBoxLayout:
+            spacing: 3 
+            orientation:'vertical'
+            size_hint: 1,None
+            size_hint_y:.25
+            Label:
+                index: 1
+                size_hint_y:.2
+                text: 'Choose Screen'
+                text_color_normal:'0,0,0,1'
+                
+            MDBoxLayout:
+                id: Screen
+                canvas.before:            
+                    Color:
+                        rgba: 0.9,0.9,0.9,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+
+
+
+<Content>:
+    orientation: 'vertical'
+
+    canvas.before:            
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    adaptive_height: True
+
+    TwoLineIconListItem:
+        id: panel_info
+        text: "Name : -"
+        secondary_text: "Type : -"
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                orientation: 'vertical'
+                Label:
+                    text:'Info: -'
+                Label:
+                    text:'Info: -'
+            MDBoxLayout:
+                size_hint:1,1
+                orientation:'horizontal'
+                CUSTOM_BOTTON:
+
+                    canvas.before:            
+                        Color:
+                            rgba: 1,1,1,1
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                        
+                    pos_hint: {'left': 1,'bottom': 1}   
+
+                    color:0,0,0,1
+                    text:'Edit'
+                    on_press:
+                        print('EDIT')
+                        app.side_window("Panel"+str(self.parent.parent.parent.parent.panel_number))
+
+                CUSTOM_BOTTON:
+
+                    canvas.before:            
+                        Color:
+                            rgba: 1,1,1,1
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    
+                    color:0,0,0,1
+                    pos_hint: {'left': 1,'bottom': 1}   
+                    text:'Remove'
+                    on_press:
+                        print('REMOVE')
+                        self.parent.parent.parent.parent.parent.parent.parent.remove_panel(self.parent.parent.parent.parent.panel_number)
+
+
+
+<OPTIONS>:
+    spacing: '10dp'   
+    orientation: 'vertical'
+    MDFillRoundFlatButton:
+        padding: 3
+        spacing: 2
+        md_bg_color: .8,0,0,1
+        font_size: "18sp"   
+        text: '[b]+[/b] Add Screen'
+        on_release: self.parent.add_panel()
+    
+    MDBoxLayout:
+        spacing: '10dp'   
+        id:select_plot_box
+        orientation: 'vertical'
+        
+        size_hint: 1,1
+        canvas.before:  
+                   
+            Color:
+                rgba: 1,1,1,1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+    MDFloatingActionButton:
+        size_hint: 1,.15
+        spacing:3
+        icon: "play"
+        md_bg_color: 1,0,0,1
+        on_press: 
+            app.make_plot()
+            app.plot = 1    
+
+
+           
+        # MDDataTable:
+        #     size_hint:0.7,0.6
+        #     use_pagination: True
+        #     check: True
+
+
+<MIN_SIDE_WINDOW>:
+    size_hint: .02,1
+    canvas.before:            
+        Color:
+            rgba: .1,.1,.1,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    Button:
+        size_hint:None, None
+        border: (10,10,10,10)
+        width: self.parent.width
+        height: '30dp'
+        text: '<<'
+        background_normal: '.1,.1,.1,1'
+        background_color: .1,.1,.1,1       
+        on_release: app.expand_sw(self.parent.window)
+    
+<SIDE_WINDOW>:
+    id:side_w
+    index: 0
+    size_hint: .44,1
+    background_normal: .18,.18,.18,1
+    background_down: 1, 1, 1, 1
+    strip_size: 10
+    strip_cls: Factory.SplitterStrip
+    canvas:            
+        Color:
+            rgba: 1,.18,.18,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    MDBoxLayout:
+        elevation:3  
+        
+        orientation: 'vertical'
+        canvas.before:            
+            Color:
+                rgba: .18,.18,.18,1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        MDBoxLayout:
+            elevation:4
+            size_hint_y: 0.05
+            orientation: 'horizontal'
+            canvas.before:            
+                Color:      
+                    rgba: .1,.1,.1,1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos   
+                    
+            AnchorLayout:       
+                anchor_x: 'left'
+                anchor_y: 'center'
+                
+                
+                
+                Button:
+                    size_hint:None, None
+                    border: (10,10,10,10)
+                    height: self.parent.height
+                    width: '50dp'
+                    text: '>>'
+                    background_normal: '.1,.1,.1,1'
+                    background_color: .1,.1,.1,1
+                    on_release: app.minimize_sw(self.parent.parent.parent.parent.window)
+            AnchorLayout:
+                anchor_x: 'right'
+                anchor_y: 'center'
+                  
+                
+                Button:
+                    size_hint:None, None
+                    border: (10,10,10,10)
+                    height: self.parent.height
+                    width: '50dp'
+                    text: 'x'
+                    background_down: '.3,.18,.18,1'
+                    background_color: 1,0,0,0.5     
+                    on_release: app.close_sw(self.parent.parent.parent.parent.window) #print(self.parent.parent.parent.parent.window)
+                                
+        MDTabs:
+            id:tabs
+            elevation:3
+            background_color:.18,.18,.18,1
+            text_color_normal: 1,1,1,1
+            color_indicator: 1,0,0,1
+            on_ref_press: app.on_ref_press(*args)
+            on_tab_switch: app.on_tab_switch(*args)
+
+<SplitterStrip>:
+    horizontal: 'True if self.parent and self.parent.sizable_from[0] in (\'t\', \'b\') else False'
+    background_normal: ''
+    background_down:'0,0,0,1'
+    background_color: .2,.2,.2,1
+    Image:
+        pos: root.pos
+        size: root.size
+        allow_stretch: True
+        color: 1,1,0,1
+        source: 'atlas://data/images/defaulttheme/splitter_grip' + root.horizontal
+
+
+
+
+<TOP_BAR>:
+    size_hint: 1,.05
+    MDStackLayout:
+        index:4
+        elevation: 4
+
+        orientation: 'lr-tb'
+        canvas.before:            
+            Color:
+                rgba: .18,.18,.18,1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+    
+        TOP_BUTTONS:
+            id: file
+            text: 'Monitor'
+            on_release: app.file_menu( 1)
+       
+        TOP_BUTTONS:
+            id: view
+            text: 'View'
+            on_release: app.file_menu( 2)
+   
+<TOP_BUTTONS>:
+    id: button
+    size_hint: None,1
+    width: '50dp'
+    background_normal: '.1,.1,.1,1'
+    background_color: .18,.18,.18,1
+#
+
+<VIEW_MENU>:
+    index:5
+    size_hint:1,1
+    
+    MENU:
+        height: '150dp'
+        pos_hint: {'left': 1,'top': 1}   
+        pos: '50dp',0  
+  
+        Button:
+            size_hint_y: None
+            height: '50dp'
+            text:'Switch Screen'
+            halign: 'left' 
+            background_normal: '.18,.18,.18,1'
+            background_color: .18,.18,.18,1 
+            on_release: 
+                app.switch_window()
+                app.plot = 0
+                app.screen.ids.graphv.tabs_open = 0
+            
+        Button:
+            size_hint_y: None
+            height: '50dp'
+            text:'Graph Options'
+            halign: 'left'
+            
+            background_normal: '.1,.1,.1,1' 
+            background_color: .19,.18,.18,1
+            on_release: app.side_window('TOOLS')
+        Button:
+            size_hint_y: None
+            height: '50dp'
+            text:'Read SD'
+            halign: 'left'
+            
+            background_normal: '.1,.1,.1,1' 
+            background_color: .19,.18,.18,1
+            on_release: app.side_window('SD')
+
+<FILE_MENU>:
+    index:5
+    size_hint:1,1
+    
+   
+    MENU:
+        pos_hint: {'left': 1,'top': 1}   
+        pos: 0,0     
+        height: '200dp'
+        Button:
+            size_hint_y: None
+            height: '50dp'
+            text:'Voltage'
+            halign: 'left' 
+            background_normal: '.18,.18,.18,1'
+            background_color: .18,.18,.18,1 
+            on_release: app.mode = 0
+            
+        Button:
+            size_hint_y: None
+            height: '50dp'
+            text:'Temperatures'
+            halign: 'left'
+            
+            background_normal: '.1,.1,.1,1' 
+            background_color: .19,.18,.18,1 
+            on_release: app.mode = 1
+        
+        Button:
+            size_hint_y: None
+            height: '50dp'
+            text:'Humidity'
+            halign: 'left'
+            
+            background_normal: '.1,.1,.1,1' 
+            background_color: .19,.18,.18,1 
+            on_release: app.mode = 2
+        
+        Button:
+            size_hint_y: None
+            height: '50dp'
+            text:'Box info'
+            halign: 'left'
+            
+            background_normal: '.1,.1,.1,1' 
+            background_color: .19,.18,.18,1 
+            on_release: app.side_window('BOX_INFO')
+<MENU>:
+    on_leave: 
+        app.menu_open = 0
+        self.parent.parent.remove_widget(self.parent)
+        print(str(app.menu_open))
+    orientation: 'vertical'
+    size_hint:None, None
+    width:250
+
+    pos_hint: {'center_x': 1.0,'center_y': 1.0}
+    spacing: '1dp'
+    
+    canvas.before:            
+        Color:      
+            rgba: .1,.1,.1,1
+        Rectangle:
+            size:self.width, self.height +2
+            pos: self.pos
+
+<BOTTOM_BAR>:
+    index:4
+    elevation: 5
+    size_hint: 1, .03
+    canvas:            
+        Color:
+            rgba: .18,.18,.18,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    Label:
+        text:''
+#
+
+
+<BOX_VIEWER>:
+    id:viewer
+    canvas:            
+        Color:
+            rgba: .3,.3,.3,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        size: self.size
+        pos: self.pos
+        
+        MyScatterLayout:
+            id:box
+#
+
+<MyScatter>:
+    index:1
+    do_translation: True
+    do_rotation: False
+    do_scale: True
+    size: 5000,2000
+    SEGMENT_LAYOUT:
+        id:grid
+        
+            
+        
+     
+#
+<SEGMENT_LAYOUT>:
+
+    spacing: '50dp'
+    padding: '50dp'
+    size: root.parent.width,root.parent.height
+   
+    canvas.before:   
+        Color:
+            rgba: 0,0,0,1
+        RoundedRectangle:
+            size:self.size
+            pos: self.pos
+            radius: box_radius
+    cols:4
+    rows:2
+    
+
+<MyScatterLayout>:
+    index:0
+    do_scale: False
+    do_translation: False
+    do_rotation: False
+    #pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+    
+#
+
+<SEGMENT>:
+    cols:2
+    rows:9
+    spacing: '20dp'
+    padding: '20p'
+    size_hint: 1,1
+   
+    pos:self.pos
+    canvas.before:
+        Color:
+            rgba: 0.15,0.15,0.15,1
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: box_radius
+
+    
+
+<BATTERY>:
+    
+    on_release: 
+        app.side_window(self.full_id)
+        
+        self.update_select_state(True)
+    canvas.before:
+        Color: 
+            rgba: [1,1,0,0] 
+        Line:
+            rectangle: self.x,self.y,self.width,self.height
+            
+
+
+    Label:    
+        text: ""
+    MDIconButton:
+        id:balance_id
+        icon_size: "64sp"
+        theme_text_color: "Custom"
+        text_color: 0,0,0,0
+        icon: "battery-charging"
+        
+
+ 
+                

@@ -1,0 +1,14 @@
+{
+    
+    "Panel1": {
+        "Name": "Test",
+        "Cell ID": null,
+        "Segment ID": "ALL",
+        "Box Info": null, 
+        "Cell Data Type": null,
+        "Segment Data Type": "Voltages", 
+        "Box Data Type": null, 
+        "Screen": "top_left"
+    }
+     
+}
