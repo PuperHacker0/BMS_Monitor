@@ -634,13 +634,7 @@ class App(MDApp):
     def make_plot(self):
         self.screen.ids.graphv.check_layout()
     def update(self,dt):
-        # f = open(os.path.dirname(os.path.abspath("battery_data.json"))+"\\make_array\\battery_data.json","r")
-        # try:
-        #     self.data = json.loads(f.read())
-            
-        # except json.decoder.JSONDecodeError:
-        #     pass
-
+       
         y = serial_reader.get_data()
         if len(y) == 0:
             return
@@ -654,13 +648,7 @@ class App(MDApp):
             # print(self.data.get("Voltages"))
             update_battery_color(self)
 
-        try:
-            #self.screen.ids.graphv.grc.update_plot(self.data)
-            pass
-        except AttributeError:
-            pass
-        ##print(self.graph_segment_id)
-        if 'BOX_IN' in ids_list:
+        if 'BOX_IN' in ids_list: #and  self.data.get("AccumulatorInfo") or self.data.get("Isabelle Info") or self.data.get("Elcon Info"):
            
                 update_acc_data(self,self.data)
             

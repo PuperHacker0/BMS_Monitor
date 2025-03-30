@@ -79,9 +79,9 @@ def convert_values_to_color(self):
         # print(np.temp)
         np.temp = np.temp.reshape(8,18)
         self.temp = np.temp
-        print(self.temp)
+        # print(self.temp)
     except Exception as e:  
-        print(e)
+        # print(e)
         self.temperature_error +=1          
         
     try:
@@ -133,37 +133,12 @@ def update_acc_data(self,data):
     except Exception as e:
         pass
 
-    # self.screen.ids.main.ids.acc.ids.acc_labels.Ams_Error = self.data['AccumulatorInfo']['Ams_Error']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.Imd_Error = self.data['AccumulatorInfo']['Imd_Error']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.AIR_P_Supp = self.data['AccumulatorInfo']['AIR_P_Supp']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.AIR_M_Supp = self.data['AccumulatorInfo']['AIR_M_Supp']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.AIR_P_State = self.data['AccumulatorInfo']['AIR_P_State']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.AIR_M_State = self.data['AccumulatorInfo']['AIR_M_State']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.over60_dclink = self.data['AccumulatorInfo']['over60_dclink']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.dc_dc_temp = self.data['AccumulatorInfo']['dc_dc_temp']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.HVroom_humidity = self.data['AccumulatorInfo']['HVroom_humidity']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.precharge_voltage = self.data['AccumulatorInfo']['precharge_voltage']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.AIR_P_State_Int = self.data['AccumulatorInfo']['AIR_P_State_Int']
-    # self.screen.ids.main.ids.acc.ids.acc_labels.update_labels()
+
 
 def update_tab(self,seg,bat):
     
 
-    temp_seg = int(seg)
-    if temp_seg == 2:
-        temp_seg = 3
-    elif temp_seg == 3:
-        temp_seg = 5
-    elif temp_seg == 4:
-        temp_seg = 7
-    elif temp_seg == 5:
-        temp_seg = 9
-    elif temp_seg == 6:
-        temp_seg = 11
-    elif temp_seg == 7:
-        temp_seg = 13
-    elif temp_seg == 8:
-        temp_seg = 15
+    
     try:
         if self.temp[int(seg)-1][int(bat)-1] == 255:
             temp_address = 0.000
@@ -171,11 +146,23 @@ def update_tab(self,seg,bat):
             temp_address = self.temp[int(seg)-1][int(bat)-1]
     except Exception as e:
         pass
-        # print(e)
-        # print("seg " + str(seg))
-        # print("bat " + str(bat))
-        # # temp_address = "ERROR"
+       
     try:
+        temp_seg = int(seg)
+        if temp_seg == 2:
+            temp_seg = 3
+        elif temp_seg == 3:
+            temp_seg = 5
+        elif temp_seg == 4:
+            temp_seg = 7
+        elif temp_seg == 5:
+            temp_seg = 9
+        elif temp_seg == 6:
+            temp_seg = 11
+        elif temp_seg == 7:
+            temp_seg = 13
+        elif temp_seg == 8:
+            temp_seg = 15
 
         if self.hum[int(temp_seg)-1] == 255:
             hum_address = self.hum[int(temp_seg)]
@@ -190,12 +177,8 @@ def update_tab(self,seg,bat):
         self.screen.ids.main.ids.window_controller.ids.side_w.ids.tabs.ids['S'+ str(seg) + '-' + 'B'+str(bat)].update_selected(self.volt[int(seg)-1][int(bat)-1]*4.2,temp_address,hum_address,self.c)
         # self.count+=1
         
-        # if self.count == 50:
-        #     ##print("blink")
-        #     self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[seg].ids[bat].blink()        
-        #     self.count = 0
+       
     except Exception as e:
-        
         #print(str(e)+" line 177 _update")
         pass
 

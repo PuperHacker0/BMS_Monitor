@@ -4,13 +4,14 @@ import serial
 import time
 
 def generate_random_json():
-    """Generates random values and returns a JSON-like dictionary."""
+   
     humidities = [random.randint(0, 99) for _ in range(16)]
     temperatures =  [random.randint(0, 99) for _ in range(144)]
     voltages =  [random.randint(0, 99) for _ in range(144)]
     pec_errors = [random.randint(0, 15) for _ in range(16)]
     balancing = [random.randint(0, 1) for _ in range(144)]
-    accumulator_info = { # Example data
+   
+    accumulator_info = { 
         "Ams_Error": str(random.choice([0, 1])),
         "Imd_Error": str(random.choice([0, 1])),
         "AIR_P_Supp": str(random.choice([0, 1])),
@@ -56,14 +57,14 @@ def generate_random_json():
     return data
 
 def send_json_via_serial(data, port, baudrate=9600):
-    """Sends the JSON data via serial port."""
+   
     try:
-        ser = serial.Serial(port, baudrate, timeout=1)  # Adjust timeout as needed
-        json_string = json.dumps(data) + '\n'  # Add newline for easy parsing
+        ser = serial.Serial(port, baudrate, timeout=1) 
+        json_string = json.dumps(data) + '\n'  
         ser.write(json_string.encode('utf-8'))
-        time.sleep(0.1)  # Small delay to ensure all data is sent
+        time.sleep(0.5)  
         ser.close()
-        print(f"JSON data sent to {port}")
+        # print(f"JSON data sent to {port}")
 
     except serial.SerialException as e:
         print(f"Error: Could not open serial port {port}: {e}")
@@ -71,9 +72,10 @@ def send_json_via_serial(data, port, baudrate=9600):
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    serial_port = "COM2"  # Example: Adjust to your Android's COM port
+    serial_port = "COM2"  
     while(True):
+        
         random_data = generate_random_json()
-        # You might need to use /dev/ttyACM0, /dev/ttyS0, etc.
-        # Check your android device to find the correct port.
+       
         send_json_via_serial(random_data, serial_port)
+        

@@ -52,7 +52,7 @@ from kivymd.uix.floatlayout import MDFloatLayout
 from kivy.uix.stencilview import StencilView
 from kivy.uix.scatterlayout import Scatter
 from kivy.uix.behaviors import ButtonBehavior
-from  kivy.uix.popup import Popup
+from kivy.uix.popup import Popup
 from kivy.base import EventLoop
 from kivy.config import Config
 
