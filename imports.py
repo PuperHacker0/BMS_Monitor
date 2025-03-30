@@ -19,10 +19,10 @@ from kivy.graphics.context_instructions import Color
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.graphics import *
-from kivy.core.window import*
+# from kivy.core.window import*
 from kivy.uix.gridlayout import GridLayout
 from kivymd.uix.gridlayout import MDGridLayout
-from kivy.core.window import Window
+# from kivy.core.window import Window
 from kivymd.font_definitions import fonts
 from kivy.uix.dropdown import DropDown
 from kivy.uix.spinner import Spinner
@@ -65,4 +65,4 @@ import colorsys
 import string
 import numpy as np
 import json
-import os
+import os,sys

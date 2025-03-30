@@ -1,7 +1,8 @@
 from imports import*
 from DISPLAY import*
 from _update import*
-
+import time
+from usbDash import SerialReader as sr
 windll.user32.SetProcessDpiAwarenessContext(c_int64(-4))
 Window.size = (1280, 720)
 Config.set('input', 'mouse', 'mouse,disable_multitouch')
@@ -31,7 +32,7 @@ class MainScreen(Screen):
             global selected_tab 
             selected_tab = 1
         else:
-            # print('tabs open '+str(self.tabs_open))
+            # #print('tabs open '+str(self.tabs_open))
             self.ids.window_controller.ids.side_w.add_tab(caller_id)
               
     def close(self):
@@ -44,16 +45,16 @@ class MainScreen(Screen):
                 try:
                     print("before "+str(self.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(i)].ids[str(z)].selection_color.rgba))
                     self.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(i)].ids[str(z)].update_select_state(False)
-                    print("after "+str(self.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(i)].ids[str(z)].selection_color.rgba))
-                    # self.ids.window_controller.ids.viewer.ids.box.ids.self.segments.ids.grid.ids[str(i)].ids[str(z)].update_select_state(False)
+                    #print("after "+str(self.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(i)].ids[str(z)].selection_color.rgba))
+                    self.ids.window_controller.ids.viewer.ids.box.ids.self.segments.ids.grid.ids[str(i)].ids[str(z)].update_select_state(False)
                 except Exception as e:
                     print(str(e)+ " line 46 main")
         ids_list.fill('None')
         global selected_tab 
         selected_tab = 0
-        #print(ids_list)
+        ##print(ids_list)
         self.ids.window_controller.remove_widget(self.sw)
-        print("closed")
+        #print("closed")
     def minimize(self):
         self.min_sw = MIN_SIDE_WINDOW(window = 0)
         self.ids.window_controller.remove_widget(self.sw)
@@ -108,7 +109,7 @@ class GraphController(MDBoxLayout):
             z = manual["Box Info"]
         self.line.append([])
         self.y_data.append([])
-        print(len(self.y_data[int(panel_id[5])]))
+        #print(len(self.y_data[int(panel_id[5])]))
         self.line[int(panel_id[5])], = self.ax[int(panel_id[5])].plot(self.x_data, self.y_data[int(panel_id[5])],label = z)
            
 
@@ -124,7 +125,7 @@ class GraphController(MDBoxLayout):
         self.ids[manual["Screen"]].ids[panel_id] = self.plot[int(panel_id[5])]
         
     def update_all_plots(self,_data):
-        #print(self.x_data)
+        ##print(self.x_data)
         if self.manual["Panel1"]["Segment ID"] == "ALL" :
             self.update_bars(_data,self.manual)
             return
@@ -132,8 +133,8 @@ class GraphController(MDBoxLayout):
         if len(self.x_data) == 1000:
             x = np.arange(self.x_data[999], self.x_data[999]+10,1)
             x = x.tolist()
-            #print("x = " + str(x))
-            print("x_data before : " + str(len(self.x_data)))
+            ##print("x = " + str(x))
+            #print("x_data before : " + str(len(self.x_data)))
             self.x_data.pop(0)
             self.x_data.pop(0)
             self.x_data.pop(0)
@@ -144,12 +145,12 @@ class GraphController(MDBoxLayout):
             self.x_data.pop(0)
             self.x_data.pop(0)
             self.x_data.pop(0)
-            #print("x_data before: "+ str(len(self.x_data)))
+            ##print("x_data before: "+ str(len(self.x_data)))
 
-            print("x_data during: " + str(len(self.x_data)))
+            #print("x_data during: " + str(len(self.x_data)))
             self.x_data.extend(x)
-            print("x_data after: " + str(len(self.x_data)))
-            #print(self.x_data[0])
+            #print("x_data after: " + str(len(self.x_data)))
+            ##print(self.x_data[0])
         else:     
             x = np.arange(len(self.x_data), len(self.x_data) + 10)
 
@@ -163,7 +164,7 @@ class GraphController(MDBoxLayout):
 
         if _id > self.num_plots:
             return
-        print("_id : " + str(_id))
+        #print("_id : " + str(_id))
         # Add the new data to the plot
         if self.manual["Panel"+str(_id)]["Cell ID"] != None:
             j = self.manual["Panel"+str(_id)]["Cell ID"]
@@ -182,7 +183,7 @@ class GraphController(MDBoxLayout):
 
         self.line[_id].set_xdata(self.x_data)
         if len(self.y_data[_id]) == 1000:
-            print("y_data before: "+ str(len(self.y_data[_id])))
+            #print("y_data before: "+ str(len(self.y_data[_id])))
             self.y_data[_id].pop(0)
             self.y_data[_id].pop(0)
             self.y_data[_id].pop(0)
@@ -193,13 +194,13 @@ class GraphController(MDBoxLayout):
             self.y_data[_id].pop(0)
             self.y_data[_id].pop(0)
             self.y_data[_id].pop(0)
-            print("y_data during: "+ str(len(self.y_data[_id])))
+            #print("y_data during: "+ str(len(self.y_data[_id])))
             self.y_data[_id].extend([y]*10)
-            print("y_data after: "+ str(len(self.y_data[_id])))
-            print(self.x_data)
+            #print("y_data after: "+ str(len(self.y_data[_id])))
+            #print(self.x_data)
         else:
             self.y_data[_id].extend([y]*10)
-            print(len(self.y_data[_id]))
+            #print(len(self.y_data[_id]))
             
         self.line[_id].set_ydata(self.y_data[_id])
         # Redraw the plot
@@ -207,12 +208,12 @@ class GraphController(MDBoxLayout):
             self.ax[int(_id)].relim()
         except ValueError:
             print("id : "+ str(_id))
-            print("length : y_data = "+str(len(self.y_data[_id])))
-            print("length : x_data = "+ str(len(self.x_data) ))
-            print("y_data table :")
-            print(self.y_data[_id])
-            print("x_data table :")
-            print(self.x_data)
+            #print("length : y_data = "+str(len(self.y_data[_id])))
+            #print("length : x_data = "+ str(len(self.x_data) ))
+            #print("y_data table :")
+            #print(self.y_data[_id])
+            #print("x_data table :")
+            #print(self.x_data)
         self.ax[int(_id)].autoscale_view()
         self.plot[_id].draw()
         # if len(self.y_data[_id]) == 1000:
@@ -220,20 +221,20 @@ class GraphController(MDBoxLayout):
         #     return
         # self.loading.dismiss()
     def bar_plot(self,manual,_id):
-        print(self.ids)
+        #print(self.ids)
         self.plot = []
         self.fig = []
         self.ax = []
-        # print("in")
+        # #print("in")
         self.fig, self.ax = plt.subplots()
         
         bar_width = 1
         for i in range(1,145):
             self.labels.append("B"+str(i)) 
 
-        # print(self.labels)
+        # #print(self.labels)
         # self.ax.set_xticks(np.arange(144))
-        print(manual)
+        #print(manual)
         if manual["Segment Data Type"] == "Voltages":
             self.bar1 = self.ax.bar(np.arange(144)  ,0, bar_width,color = 'g')
         elif manual["Segment Data Type"] == "Temperatures": 
@@ -243,17 +244,17 @@ class GraphController(MDBoxLayout):
         self.plot =  FigureCanvasKivyAgg(figure=self.fig)
         self.ids["top_left"].add_widget(self.plot)
         self.ids["top_left"].ids["ALL"] = self.plot
-        print(self.ids)
+        #print(self.ids)
 
 
-        # print(self.ids["top_left"].ids)
+        # #print(self.ids["top_left"].ids)
         self.ax.relim()
         self.ax.autoscale_view()
         self.plot.draw()
-        # print("done")
+        # #print("done")
     def update_bars(self,data,manual):
         
-        if manual["Panel1"]["Segment Data Type"] == "Voltages":
+        if manual["Panel1"]["Segment Data Type"] == "Voltages" and data.get("Voltages"):
             ymax = data["Voltages"][0]
             ymin = data["Voltages"][0]
             for i, rect in enumerate(self.bar1):
@@ -266,7 +267,7 @@ class GraphController(MDBoxLayout):
                     self.ax.set_ylim([ymin-0.005,ymax+0.005])
                 else:
                     rect.set_height(0)
-        elif manual["Panel1"]["Segment Data Type"] == "Temperatures": 
+        elif manual["Panel1"]["Segment Data Type"] == "Temperatures" and data.get("Temperatures"): 
             for i, rect in enumerate(self.bar1):
                 try:
                     if data["Temperatures"][i] != 255: 
@@ -276,7 +277,7 @@ class GraphController(MDBoxLayout):
                 except Exception as e:
                     if e == IndexError or e ==KeyError:
                         rect.set_height(0)
-        elif manual["Panel1"]["Segment Data Type"] == "Humidities":
+        elif manual["Panel1"]["Segment Data Type"] == "Humidities" and data.get("Humidities"):
             for i, rect in enumerate(self.bar1):
                 try:
                     if data["Humidities"][i] != 255:
@@ -299,7 +300,7 @@ class GraphView(Screen):
     def on_leave(self):
         self.ids.window_controller.clear_widgets()
         self.on_ = 0
-        print("on_ : "+ str(self.on_))
+        #print("on_ : "+ str(self.on_))
         
     def open_side_menu(self,caller_id):
         self.tabs_open += 1
@@ -310,26 +311,26 @@ class GraphView(Screen):
             global selected_tab 
             selected_tab = 1
         else:
-            #print('tabs open '+str(self.tabs_open))
+            ##print('tabs open '+str(self.tabs_open))
             self.ids.window_controller.ids.side_w.add_tab(caller_id)
     def on_enter(self):
-        print("on enter : " +str(self.on_))
+        #print("on enter : " +str(self.on_))
         if self.on_ == 0:
             self.grc = GraphController()
             self.ids.window_controller.add_widget(self.grc)
             self.ids.window_controller.ids['grc'] = self.grc
             #self.grc.add_plot('S1-B2','Voltage','top_right',1)
-            print("in if : " +str(self.on_))
+            #print("in if : " +str(self.on_))
         self.on_ = 1
-        print("on after : " +str(self.on_))
+        #print("on after : " +str(self.on_))
     def check_layout(self):
         try:
-            f = open(os.path.dirname(os.path.abspath("PLOT_MANUAL.json")), 'r')
+            f = open(os.path.dirname(os.path.abspath("PLOT_MANUAL.json"))+"\\PLOT_MANUAL.json", 'r')
             self.manual = json.loads(f.read())
         except json.decoder.JSONDecodeError:
             return 
         self.grc.num_plots = len(self.manual)
-        print('num of plots: '+str(len(self.manual)))
+        #print('num of plots: '+str(len(self.manual)))
         
         for i in range(1, len(self.manual)+1):
             
@@ -342,7 +343,7 @@ class GraphView(Screen):
     def close(self):
         self.tabs_open = 0
         self.ids.window_controller.remove_widget(self.sw)
-        print("closed")
+        #print("closed")
     def minimize(self):
         self.min_sw = MIN_SIDE_WINDOW(window = 1)
         self.ids.window_controller.remove_widget(self.sw)
@@ -378,7 +379,7 @@ class App(MDApp):
         self.bvw = BOX_VIEWER()
         self.screen.ids.main.ids.window_controller.add_widget(self.bvw)
         self.screen.ids.main.ids.window_controller.ids['viewer'] = self.bvw
-        
+        self.data = {}
         
         
         self.Arrdiv5=np.vectorize(div5)
@@ -416,7 +417,7 @@ class App(MDApp):
             if not a.isnumeric():
                 a= bytearray(instance_tab.title[10:11], encoding='UTF-8')
                 a = a.decode('UTF-8')
-            #print(a)
+            ##print(a)
             self.c = 'Panel'+ a
             self.graph_segment_id = 'None'
             self.graph_battery_id = 'None'
@@ -429,7 +430,7 @@ class App(MDApp):
             self.c = x
             self.graph_segment_id = 'None'
             self.graph_battery_id = 'None'
-        #print("Welcome to "+self.c+" tab")
+        ##print("Welcome to "+self.c+" tab")
         y = 0
         try:
             if self.screen.ids.main.ids.window_controller.ids.side_w.i > self.screen.ids.graphv.ids.window_controller.ids.side_w.i:
@@ -466,7 +467,7 @@ class App(MDApp):
 
             try:
                 if ids_list[0][i] == 'BOX_IN':
-                    print(ids_list)
+                    #print(ids_list)
                     self.screen.ids.main.ids.window_controller.ids.side_w.ids.tabs.ids['BOX_INFO'].clear_widgets()
                     continue
                     
@@ -478,29 +479,29 @@ class App(MDApp):
                         
                         self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[ids_list[0][i][1:2]].ids[ids_list[0][i][4:6]].selection_color.rgba = [1,1,0,1]
                         self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[ids_list[0][i][1:2]].ids[ids_list[0][i][4:6]].selection_points.width = 3       
-                        # print("last")
+                        # #print("last")
                     except Exception as e:
-                        print(str(e)+"line 472 main")
-                        print(self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[int(ids_list[0][i][1:2])].ids[ids_list[0][i][4:6]])
+                        #print(str(e)+"line 472 main")
+                        #print(self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[int(ids_list[0][i][1:2])].ids[ids_list[0][i][4:6]])
                         break
                     
                 if ids_list[0][i][0:1] == 'P':
                     #self.screen.ids.graphv.ids.window_controller.ids.side_w.ids.tabs.ids[ids_list[0][i]].clear_widgets()           
                     continue
             except KeyError:
-                #print(ids_list[0][i])
+                ##print(ids_list[0][i])
                 for i in range(1,8):
                     for z in range(1,18):
                         if z == 18:
                             print("yes")
                         self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(i)].ids[str(z)].update_select_state(False)
-                print('No address on_switch')    
+                #print('No address on_switch')    
 
     def on_ref_press(self,instance_tabs,instance_tab_label,instance_tab,instance_tab_bar,instance_carousel,):
         self.selected = 1
         
         x = instance_tab.title[5:13]
-        print(x)
+        #print(x)
         if x[0:1] == 'S':
             a = bytearray(instance_tab.title[6:7], encoding='UTF-8')
             b = bytearray(instance_tab.title[9:11], encoding='UTF-8')
@@ -529,14 +530,14 @@ class App(MDApp):
         for instance_tab in instance_carousel.slides:
             if instance_tab.title == instance_tab_label.text:
                 
-                print(ids_list)
-                print(c)
+                #print(ids_list)
+                #print(c)
                 x = np.where(ids_list== str(c))
                 if c != 'BOX_INFO' and c != 'TOOLS' and c[0:1] != 'P':
-                    print(c)
+                    #print(c)
                     try:
                         self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.self.segments.ids.grid.ids[a].ids[b].update_select_state(False)
-                        print("yo")
+                        #print("yo")
                     except AttributeError:
                         print("no")
                 ids_list[x] = 'None'
@@ -633,24 +634,36 @@ class App(MDApp):
     def make_plot(self):
         self.screen.ids.graphv.check_layout()
     def update(self,dt):
-        f = open(os.path.dirname(os.path.abspath("battery_data.json")),"r")
-        try:
-            self.data = json.loads(f.read())
-        except json.decoder.JSONDecodeError:
-            pass
-        update_battery_color(self)
+        # f = open(os.path.dirname(os.path.abspath("battery_data.json"))+"\\make_array\\battery_data.json","r")
+        # try:
+        #     self.data = json.loads(f.read())
+            
+        # except json.decoder.JSONDecodeError:
+        #     pass
+
+        y = serial_reader.get_data()
+        if len(y) == 0:
+            return
+        else:
+            json_string = y[0]  # Extract the string from the list
+            try:
+                self.data = json.loads(json_string) 
+            except Exception as e:
+                print("EEEERRRRRROOOORRRR"+json_string)
+        if  self.data.get("Voltages") or self.data.get("Temperatures") or self.data.get("Humidities") or self.data.get("Balancing"):
+            # print(self.data.get("Voltages"))
+            update_battery_color(self)
 
         try:
             #self.screen.ids.graphv.grc.update_plot(self.data)
             pass
         except AttributeError:
             pass
-        #print(self.graph_segment_id)
+        ##print(self.graph_segment_id)
         if 'BOX_IN' in ids_list:
-            try:
+           
                 update_acc_data(self,self.data)
-            except AttributeError:
-                pass
+            
         if selected_tab == 1 and self.graph_segment_id != 'None' and self.graph_battery_id != 'None':
             
             update_tab(self,self.graph_segment_id,self.graph_battery_id)
@@ -660,7 +673,7 @@ class App(MDApp):
             self.screen.ids.graphv.grc.update_all_plots(self.data)
     def on_enter(instance, value):
        pass
-       # print('User pressed enter in', instance, value)
+       # #print('User pressed enter in', instance, value)
     def build(self):
         
         return self.screen
@@ -668,4 +681,9 @@ class App(MDApp):
 
 
 #Window.clearcolor=(.3,.3,.3,1)
-App().run()
+if __name__== '__main__':
+    serial_reader = sr()
+    serial_reader.start()
+    App().run()
+   
+#print("exit")

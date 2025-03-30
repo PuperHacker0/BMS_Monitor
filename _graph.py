@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from backend_kivyagg import FigureCanvasKivyAgg
+from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 import matplotlib.style as mplstyle
 from matplotlib.backend_bases import MouseEvent
 from kivy.uix.widget import Widget
@@ -88,7 +88,7 @@ def blif_test(self):
     ax2 = self.fig.add_subplot(2, 1, 2)
     line, = ax2.plot([], lw=3)
     text = ax2.text(0.8,0.5, "")
-    ax2.set_xlim(x.min(), x.max())
+    ax2.set_xlim(self.x.min(), self.x.max())
     ax2.set_ylim([-1.1, 1.1])
     self.fig.canvas.draw()
     ax2background = self.fig.canvas.copy_from_bbox(ax2.bbox)

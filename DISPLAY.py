@@ -1,6 +1,6 @@
 from imports import*
 
-
+from kivy.core.window import Window
 color_test = [0,0,1,1]
 battery_pos = [8,9,7,10,6,11,5,12,4,13,3,14,2,15,1,16,0,17]
 battery_pos_x = [9,8,10,7,11,6,12,5,13,4,14,3,15,2,16,1,17,0]

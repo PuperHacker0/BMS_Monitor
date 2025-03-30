@@ -27,32 +27,37 @@ class ACC_TEXT(MDLabel):
 
 def update_battery_color(self): 
         convert_values_to_color(self)
-        # print("volt : " + str(self.volt))
-        # print("temp : " + str(self.temp))
-        # print("hum : " + str(self.hum))
+        # #print("volt : " + str(self.volt))
+        # #print("temp : " + str(self.temp))
+        # #print("hum : " + str(self.hum))
         
         if self.mode == 0:
             for i in range(0,8):
-                self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(int(segment_pos[i])+1)].set_colors(self.volt[i],self.balance[i],self.mode)
-                
+                try: 
+                    self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(int(segment_pos[i])+1)].set_colors(self.volt[i],self.balance[i],self.mode)
+                except Exception as e:
+                    pass
         if self.mode == 1:
-            for i in range(0,8):
-                self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(int(segment_pos[i])+1)].set_colors(self.temp[i],self.balance[i],self.mode)
-        
+            try:
+                for i in range(0,8):
+                    self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(int(segment_pos[i])+1)].set_colors(self.temp[i],self.balance[i],self.mode)
+            except Exception as e:
+                pass
         if self.mode == 2:
             z = 0
             for i in range(0,16,2):
-                    
-                # print(self.hum)
-                if self.hum[i] == 255:
-                    hum = self.hum[i+1]
-                    # print("took +1 " + str(hum))
-                else:
-                    hum = self.hum[i] 
-                    # print("took i " + str(hum))
-                self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(int(segment_pos[z])+1)].set_colors(hum,self.balance[z],self.mode)
-                z += 1
-
+                try:      
+                    # #print(self.hum)
+                    if self.hum[i] == 255:
+                        hum = self.hum[i+1]
+                        # #print("took +1 " + str(hum))
+                    else:
+                        hum = self.hum[i] 
+                        # #print("took i " + str(hum))
+                    self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(int(segment_pos[z])+1)].set_colors(hum,self.balance[z],self.mode)
+                    z += 1
+                except Exception as e:
+                    pass
 def convert_values_to_color(self):  
     try:
         np.temp = self.data["Balancing"]
@@ -71,10 +76,12 @@ def convert_values_to_color(self):
 
     try:
         np.temp = np.array(self.data['Temperatures'])
-
+        # print(np.temp)
         np.temp = np.temp.reshape(8,18)
         self.temp = np.temp
+        print(self.temp)
     except Exception as e:  
+        print(e)
         self.temperature_error +=1          
         
     try:
@@ -90,32 +97,41 @@ def div5(x):
 
 def update_acc_data(self,data):
     label_link = self.screen.ids.main.ids.window_controller.ids.side_w.ids.tabs.ids.BOX_INFO.ids.scroll.ids.controller.ids
-    #print(self.screen.ids.main.ids.window_controller.ids.side_w.ids.tabs.ids.BOX_INFO.ids.scroll.ids.controller.ids)
-    label_link.Ams_Error.text = "Ams_Error: " + str(data["AccumulatorInfo"]["Ams_Error"]) 
-    label_link.AIR_P_Supp.text = "AIR_P_Supp: " + str(data["AccumulatorInfo"]["AIR_P_Supp"]) 
-    label_link.AIR_M_Supp.text = "AIR_M_Supp: " + str(data["AccumulatorInfo"]["AIR_M_Supp"]) 
-    label_link.AIR_P_State.text = "AIR_P_State: " + str(data["AccumulatorInfo"]["AIR_P_State"]) 
-    label_link.AIR_M_State.text = "AIR_M_State: " + str(data["AccumulatorInfo"]["AIR_M_State"]) 
-    label_link.over60_dclink.text = "over60_dclink: " + str(data["AccumulatorInfo"]["over60_dclink"]) 
-    label_link.dc_dc_temp.text = "dc_dc_temp: " + str(data["AccumulatorInfo"]["dc_dc_temp"]) 
-    label_link.HVroom_humidity.text = "HVroom_humidity: " + str(data["AccumulatorInfo"]["HVroom_humidity"]) 
-    label_link.precharge_voltage.text = "precharge_voltage: " + str(data["AccumulatorInfo"]["precharge_voltage"]) 
-    label_link.AIR_P_State_Int.text = "AIR_P_State_Int: " + str(data["AccumulatorInfo"]["AIR_P_State_Int"]) 
-    label_link.V_Side_Voltage.text = "V_Side_Voltage: " + str(data["Isabelle Info"]["V_Side_Voltage"]) 
-    label_link.Current.text = "Current: " + str(data["Isabelle Info"]["Current"]) 
-    label_link.Ah_consumed.text = "Ah_consumed: " + str(data["Isabelle Info"]["Ah_consumed"]) 
-    label_link.Energy_Consumed.text = "Energy_Consumed: " + str(data["Isabelle Info"]["Energy Consumed"]) 
-    label_link.Target_Voltage.text = "Target_Voltage: " + str(data["Elcon Info"]["Target_Voltage"]) 
-    label_link.Output_Voltage.text = "Output_Voltage: " + str(data["Elcon Info"]["Output_Voltage"]) 
-    label_link.Target_Current.text = "Target_Current: " + str(data["Elcon Info"]["Target_Current"]) 
-    label_link.Output_Current.text = "Output_Current: " + str(data["Elcon Info"]["Output_Current"]) 
-    label_link.Elcon_connected.text = "Elcon_connected: " + str(data["Elcon Info"]["Elcon_connected"]) 
-    label_link.Elcon_AC_input_OK.text = "Elcon_AC_input_OK: " + str(data["Elcon Info"]["Elcon_AC_input_OK"]) 
-    label_link.CANBUS_Error.text = "CANBUS_Error: " + str(data["Elcon Info"]["CANBUS_Error"]) 
-    label_link.Target_charge_state.text = "Target_charge_state: " + str(data["Elcon Info"]["Target_charge_state"]) 
-    label_link.Elcon_charge_status.text = "Elcon_charge_status: " + str(data["Elcon Info"]["Elcon_charge_status"]) 
-    label_link.Elcon_overtemp.text = "Elcon_overtemp: " + str(data["Elcon Info"]["Elcon_overtemp"]) 
-
+    ##print(self.screen.ids.main.ids.window_controller.ids.side_w.ids.tabs.ids.BOX_INFO.ids.scroll.ids.controller.ids)
+    try:
+        label_link.Imd_Error.text = "Imd_Error: " + str(data["AccumulatorInfo"]["Imd_Error"]) 
+        label_link.Ams_Error.text = "Ams_Error: " + str(data["AccumulatorInfo"]["Ams_Error"]) 
+        label_link.AIR_P_Supp.text = "AIR_P_Supp: " + str(data["AccumulatorInfo"]["AIR_P_Supp"]) 
+        label_link.AIR_M_Supp.text = "AIR_M_Supp: " + str(data["AccumulatorInfo"]["AIR_M_Supp"]) 
+        label_link.AIR_P_State.text = "AIR_P_State: " + str(data["AccumulatorInfo"]["AIR_P_State"]) 
+        label_link.AIR_M_State.text = "AIR_M_State: " + str(data["AccumulatorInfo"]["AIR_M_State"]) 
+        label_link.over60_dclink.text = "over60_dclink: " + str(data["AccumulatorInfo"]["over60_dclink"]) 
+        label_link.dc_dc_temp.text = "dc_dc_temp: " + str(data["AccumulatorInfo"]["dc_dc_temp"]) 
+        label_link.HVroom_humidity.text = "HVroom_humidity: " + str(data["AccumulatorInfo"]["HVroom_humidity"]) 
+        label_link.precharge_voltage.text = "precharge_voltage: " + str(data["AccumulatorInfo"]["precharge_voltage"]) 
+        label_link.AIR_P_State_Int.text = "AIR_P_State_Int: " + str(data["AccumulatorInfo"]["AIR_P_State_Int"]) 
+    except Exception as e:
+        pass
+    try:
+        label_link.V_Side_Voltage.text = "V_Side_Voltage: " + str(data["Isabelle Info"]["V_Side_Voltage"]) 
+        label_link.Current.text = "Current: " + str(data["Isabelle Info"]["Current"]) 
+        label_link.Ah_consumed.text = "Ah_consumed: " + str(data["Isabelle Info"]["Ah_consumed"]) 
+        label_link.Energy_Consumed.text = "Energy_Consumed: " + str(data["Isabelle Info"]["Energy Consumed"]) 
+    except Exception as e:
+        pass
+    try:
+        label_link.Target_Voltage.text = "Target_Voltage: " + str(data["Elcon Info"]["Target_Voltage"]) 
+        label_link.Output_Voltage.text = "Output_Voltage: " + str(data["Elcon Info"]["Output_Voltage"]) 
+        label_link.Target_Current.text = "Target_Current: " + str(data["Elcon Info"]["Target_Current"]) 
+        label_link.Output_Current.text = "Output_Current: " + str(data["Elcon Info"]["Output_Current"]) 
+        label_link.Elcon_connected.text = "Elcon_connected: " + str(data["Elcon Info"]["Elcon_connected"]) 
+        label_link.Elcon_AC_input_OK.text = "Elcon_AC_input_OK: " + str(data["Elcon Info"]["Elcon_AC_input_OK"]) 
+        label_link.CANBUS_Error.text = "CANBUS_Error: " + str(data["Elcon Info"]["CANBUS_Error"]) 
+        label_link.Target_charge_state.text = "Target_charge_state: " + str(data["Elcon Info"]["Target_charge_state"]) 
+        label_link.Elcon_charge_status.text = "Elcon_charge_status: " + str(data["Elcon Info"]["Elcon_charge_status"]) 
+        label_link.Elcon_overtemp.text = "Elcon_overtemp: " + str(data["Elcon Info"]["Elcon_overtemp"]) 
+    except Exception as e:
+        pass
 
     # self.screen.ids.main.ids.acc.ids.acc_labels.Ams_Error = self.data['AccumulatorInfo']['Ams_Error']
     # self.screen.ids.main.ids.acc.ids.acc_labels.Imd_Error = self.data['AccumulatorInfo']['Imd_Error']
@@ -131,6 +147,8 @@ def update_acc_data(self,data):
     # self.screen.ids.main.ids.acc.ids.acc_labels.update_labels()
 
 def update_tab(self,seg,bat):
+    
+
     temp_seg = int(seg)
     if temp_seg == 2:
         temp_seg = 3
@@ -152,8 +170,11 @@ def update_tab(self,seg,bat):
         else:
             temp_address = self.temp[int(seg)-1][int(bat)-1]
     except Exception as e:
-        print(e)
-        temp_address = "ERROR"
+        pass
+        # print(e)
+        # print("seg " + str(seg))
+        # print("bat " + str(bat))
+        # # temp_address = "ERROR"
     try:
 
         if self.hum[int(temp_seg)-1] == 255:
@@ -162,19 +183,20 @@ def update_tab(self,seg,bat):
             hum_address = self.hum[int(temp_seg)-1]
 
     except Exception as e:
-        print(str(e)+"line 165 _update")
-        hum_address = "Error"
+        pass
+        #print(str(e)+"line 165 _update")
+        # hum_address = "Error"
     try:
         self.screen.ids.main.ids.window_controller.ids.side_w.ids.tabs.ids['S'+ str(seg) + '-' + 'B'+str(bat)].update_selected(self.volt[int(seg)-1][int(bat)-1]*4.2,temp_address,hum_address,self.c)
         # self.count+=1
         
         # if self.count == 50:
-        #     #print("blink")
+        #     ##print("blink")
         #     self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[seg].ids[bat].blink()        
         #     self.count = 0
     except Exception as e:
         
-        print(str(e)+" line 177 _update")
+        #print(str(e)+" line 177 _update")
         pass
 
 
