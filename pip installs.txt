@@ -1,0 +1,18 @@
+Confirmed δουλεύει σε Python 3.12.9, Windows 11
+
+-Προυπόθεση να έχει εγκατασταθεί ο pip
+
+1) python -m pip install "kivy[base]" kivy_examples
+2) pip install kivymd
+3) pip install matplotlib
+4) pip install kivy-garden
+5) garden install matplotlib
+6) pip install setuptools
+7) pip install colour
+8) pip install threaded
+9) pip install serial
+10) pip install pyserial
+11) pip install kivy_garden.matplotlib
+12) pip install kivy_garden.mapview
+
+RUNS FINE NOW.
