@@ -27,7 +27,7 @@ class SerialReader(threading.Thread):
             try:
                 
                 if self.serial_port.in_waiting > 0:
-                    data = self.serial_port.readline().decode('utf-8').strip()
+                    data = self.serial_port.read_until(b'\n').decode('utf-8').strip()
                     
                     if len(data) != 0:
                         # print(data)
@@ -64,7 +64,7 @@ class SerialReader(threading.Thread):
                     if(self.lock_com == None):
                         self.com = 'COM'+str(i)
                     
-                    self.serial_port = serial.Serial(port = 'COM'+str(i), baudrate= 9600,bytesize=8)
+                    self.serial_port = serial.Serial(port = 'COM'+str(i), baudrate= 115200,bytesize=8)
 
                     key = False
                     print('Success')

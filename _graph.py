@@ -92,6 +92,7 @@ def blif_test(self):
     ax2.set_ylim([-1.1, 1.1])
     self.fig.canvas.draw()
     ax2background = self.fig.canvas.copy_from_bbox(ax2.bbox)
+    plt.tight_layout() 
     plt.show(block=False)
 
     k=0.
@@ -99,7 +100,7 @@ def blif_test(self):
         
         line.set_data(self.x, np.sin(self.x/3.+k))
 
-        #print tx
+      
     k+=0.11
 
     self.fig.canvas.restore_region(ax2background)

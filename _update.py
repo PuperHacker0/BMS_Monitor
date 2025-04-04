@@ -36,6 +36,7 @@ def update_battery_color(self):
                 try: 
                     self.screen.ids.main.ids.window_controller.ids.viewer.ids.box.ids.segments.ids.grid.ids[str(int(segment_pos[i])+1)].set_colors(self.volt[i],self.balance[i],self.mode)
                 except Exception as e:
+                   
                     pass
         if self.mode == 1:
             try:
@@ -60,32 +61,39 @@ def update_battery_color(self):
                     pass
 def convert_values_to_color(self):  
     try:
-        np.temp = self.data["Balancing"]
-        np.blnc = np.array(self.data["Balancing"])
-        np.blnc = np.blnc.reshape(8,18)
-        self.balance = np.blnc
+        if self.data.get("Balancing"):
+            np.temp = self.data["Balancing"]
+            np.blnc = np.array(self.data["Balancing"])
+            np.blnc = np.blnc.reshape(8,18)
+            self.balance = np.blnc
     except Exception as e:
         self.balance_error +=1
     try:
-        np.temp = self.data['Voltages']
-        np.temp = self.Arrdiv5(np.temp)
-        np.temp = np.temp.reshape(8,18)
-        self.volt = np.temp
+        if self.data.get("Voltages"):
+            np.temp = self.data['Voltages']
+            np.temp = self.Arrdiv5(np.temp)
+            np.temp = np.temp.reshape(8,18)
+            self.volt = np.temp
+            print(self.volt)
     except Exception as e:
         self.voltages_error +=1
+        print(self.data)
+        print("\n\n")
 
     try:
-        np.temp = np.array(self.data['Temperatures'])
-        # print(np.temp)
-        np.temp = np.temp.reshape(8,18)
-        self.temp = np.temp
-        # print(self.temp)
+        if self.data.get("Temperatures"):
+            np.temp = np.array(self.data['Temperatures'])
+            # print(np.temp)
+            np.temp = np.temp.reshape(8,18)
+            self.temp = np.temp
+            # print(self.temp)
     except Exception as e:  
         # print(e)
         self.temperature_error +=1          
         
     try:
-        self.hum = self.data['Humidities']        
+        if self.data.get("Humidities"):
+            self.hum = self.data['Humidities']        
         
     except Exception as e:
         self.humidities_error +=1

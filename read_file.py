@@ -44,7 +44,7 @@ def generate_random_json():
         "Elcon_charge_status": str(random.choice([0, 1])),
         "Elcon_overtemp": str(random.choice([0, 1]))
     }
-    w = random.randint(0, 7)
+    w = 5#random.randint(0, 7)
     if(w == 0): data = {"AccumulatorInfo": accumulator_info}
     if(w == 1): data = {"Isabelle Info": isabelle_info}
     if(w == 2): data = {"Elcon Info": elcon_info}
@@ -56,13 +56,13 @@ def generate_random_json():
 
     return data
 
-def send_json_via_serial(data, port, baudrate=9600):
+def send_json_via_serial(data, port, baudrate=115200):
    
     try:
         ser = serial.Serial(port, baudrate, timeout=1) 
         json_string = json.dumps(data) + '\n'  
         ser.write(json_string.encode('utf-8'))
-        time.sleep(0.5)  
+        time.sleep(0.01)  
         ser.close()
         # print(f"JSON data sent to {port}")
 

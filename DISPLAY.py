@@ -45,6 +45,7 @@ class BATTERY(ButtonBehavior,MDBoxLayout):
         self.segment_id = segment_id
         self.full_id = 'S'+str(self.segment_id) + '-' + 'B'+str(self.battery_id)
         self.value = value
+        self.colors = [0,0,1,1]
         with self.canvas.after:
             self.selection_color = Color(rgba = self.select_state)
             self.selection_points = Line(rectangle = [self.x, self.y, self.width, self.height],width = 3)

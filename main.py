@@ -116,7 +116,7 @@ class GraphController(MDBoxLayout):
         #line, = self.ax.plot(self.x_data, y_data)
         self.fig[int(panel_id[5])].suptitle(manual["Name"])
 
-        # Add the plot to the Kivy app
+        
         
         self.plot.append([]) 
         
@@ -236,11 +236,11 @@ class GraphController(MDBoxLayout):
         # self.ax.set_xticks(np.arange(144))
         #print(manual)
         if manual["Segment Data Type"] == "Voltages":
-            self.bar1 = self.ax.bar(np.arange(144)  ,0, bar_width,color = 'g')
+            self.bar1 = self.ax.bar(np.arange(144)  ,0, bar_width,color = 'g',edgecolor="black")
         elif manual["Segment Data Type"] == "Temperatures": 
-            self.bar1 = self.ax.bar(np.arange(144)  ,1, bar_width,color = 'r')
+            self.bar1 = self.ax.bar(np.arange(144)  ,1, bar_width,color = 'r',edgecolor="black")
         elif manual["Segment Data Type"] == "Humidities":
-            self.bar1 = self.ax.bar(np.arange(16)   ,2, bar_width,color = 'b')
+            self.bar1 = self.ax.bar(np.arange(16)   ,2, bar_width,color = 'b',edgecolor="black")
         self.plot =  FigureCanvasKivyAgg(figure=self.fig)
         self.ids["top_left"].add_widget(self.plot)
         self.ids["top_left"].ids["ALL"] = self.plot
@@ -250,6 +250,7 @@ class GraphController(MDBoxLayout):
         # #print(self.ids["top_left"].ids)
         self.ax.relim()
         self.ax.autoscale_view()
+        self.fig.tight_layout()
         self.plot.draw()
         # #print("done")
     def update_bars(self,data,manual):
@@ -288,6 +289,7 @@ class GraphController(MDBoxLayout):
                         rect.set_height(0)
         self.ax.relim()
         self.ax.autoscale_view()
+        self.fig.tight_layout()
         self.plot.draw()
 
 class GraphView(Screen):
@@ -375,7 +377,7 @@ class App(MDApp):
         super().__init__(**kwargs)
         self.screen= Builder.load_file("Layout.kv")
         self.count = 0
-
+        self.plot = 0
         self.bvw = BOX_VIEWER()
         self.screen.ids.main.ids.window_controller.add_widget(self.bvw)
         self.screen.ids.main.ids.window_controller.ids['viewer'] = self.bvw
@@ -383,18 +385,10 @@ class App(MDApp):
         
         
         self.Arrdiv5=np.vectorize(div5)
-        Clock.schedule_interval(self.update,1/60)
+        Clock.schedule_interval(self.update,1/10)
 
     def on_tab_switch(self, instance_tabs, instance_tab, instance_tab_label, tab_text):
-        '''
-        Called when switching tabs.
-
-        :type instance_tabs: <kivymd.uix.tab.MDTabs object>;
-        :param instance_tab: <__main__.Tab object>;
-        :param instance_tab_label: <kivymd.uix.tab.MDTabsLabel object>;
-        :param tab_text: text or name icon of tab;
-        '''
-    
+       
         x = instance_tab.title[5:13]
 
         if x[0:1] == 'S':
@@ -646,22 +640,23 @@ class App(MDApp):
                 print("EEEERRRRRROOOORRRR"+json_string)
         if  self.data.get("Voltages") or self.data.get("Temperatures") or self.data.get("Humidities") or self.data.get("Balancing"):
             # print(self.data.get("Voltages"))
+           
             update_battery_color(self)
 
-        if 'BOX_IN' in ids_list: #and  self.data.get("AccumulatorInfo") or self.data.get("Isabelle Info") or self.data.get("Elcon Info"):
+        if 'BOX_IN' in ids_list: 
            
                 update_acc_data(self,self.data)
             
-        if selected_tab == 1 and self.graph_segment_id != 'None' and self.graph_battery_id != 'None':
+        if selected_tab == 1 and (self.graph_segment_id != 'None' and self.graph_battery_id != 'None'):
             
             update_tab(self,self.graph_segment_id,self.graph_battery_id)
 
 
-        if self.plot == 1:
+        if self.plot == 1 and  (self.data.get("Voltages") or self.data.get("Temperatures") or self.data.get("Humidities") or self.data.get("Balancing")):
             self.screen.ids.graphv.grc.update_all_plots(self.data)
     def on_enter(instance, value):
+       #print('User pressed enter in', instance, value)
        pass
-       # #print('User pressed enter in', instance, value)
     def build(self):
         
         return self.screen
