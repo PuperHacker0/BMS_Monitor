@@ -4,7 +4,6 @@ import serial
 import time
 
 class SerialReader(threading.Thread):
-    
     def __init__(self):
         super().__init__()
         
@@ -59,7 +58,6 @@ class SerialReader(threading.Thread):
             key = True
             i = 0
             while(key):
-                
                 try:
                     if(self.lock_com == None):
                         self.com = 'COM'+str(i)
@@ -96,11 +94,7 @@ class SerialReader(threading.Thread):
     
         
 
-
-
-
 def example():
-    
     serial_reader = SerialReader()
     serial_reader.start()
 

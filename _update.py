@@ -10,6 +10,7 @@ acc_list = ["Ams_Error", "Imd_Error", "AIR_P_Supp", "AIR_M_Supp",
             "HVroom_humidity", "precharge_voltage", "AIR_P_State_Int"]
 class OFFSET(MDFloatLayout):
      pass
+    
 class ACC_TEXT(MDLabel):
     def __init__(self,label,value, **kwargs):
         super().__init__(**kwargs)
@@ -144,9 +145,6 @@ def update_acc_data(self,data):
 
 
 def update_tab(self,seg,bat):
-    
-
-    
     try:
         if self.temp[int(seg)-1][int(bat)-1] == 255:
             temp_address = 0.000
