@@ -3,6 +3,8 @@ from DISPLAY import*
 from _update import*
 import time
 from usbDash import SerialReader as sr
+from Datalogger import*
+
 windll.user32.SetProcessDpiAwarenessContext(c_int64(-4))
 Window.size = (1280, 720)
 Config.set('input', 'mouse', 'mouse,disable_multitouch')
@@ -634,6 +636,8 @@ class App(MDApp):
             return
         else:
             json_string = y[0]  # Extract the string from the list
+            data_logger.write(json_string)
+
             try:
                 self.data = json.loads(json_string) 
             except Exception as e:
@@ -667,6 +671,12 @@ class App(MDApp):
 if __name__== '__main__':
     serial_reader = sr()
     serial_reader.start()
+
+    data_logger = Datalogger('dummy_data_output.txt', buffer_size = 5)
+    data_logger.start()
+
     App().run()
+
+    data_logger.stop()
    
 #print("exit")

@@ -12,7 +12,7 @@ class SerialReader(threading.Thread):
         self.t1 = 0
         self.t2 = 0
         self.dt = 0
-        self.com = "COM0"
+        self.com = "COM9"
         self.lock_com = None
         self.start_searching()
         self.thread = threading.Thread(target=self.read_from_port)
@@ -62,7 +62,7 @@ class SerialReader(threading.Thread):
                     if(self.lock_com == None):
                         self.com = 'COM'+str(i)
                     
-                    self.serial_port = serial.Serial(port = 'COM'+str(i), baudrate= 115200,bytesize=8)
+                    self.serial_port = serial.Serial(port = 'COM'+str(i), baudrate= 112500, bytesize=8)
 
                     key = False
                     print('Success')

@@ -66,11 +66,10 @@ class Datalogger():
                 f = open(self.output_filename, "a")
 
                 try:
-                    #Use a while loop here to keep the logger running and override buffer_limits even if input is quicker
                     for i in range(self.buffer_limit):
                         datum = self.buffer.get_nowait() #Removes AND returns the item from the queue
                         
-                        f.write(datum[0] + ' ' + str(datum[1]) + '\n') #Datum[1]'s format can be processed/changed here
+                        f.write(datum[0] + ' ' + str(datum[1]) + '\n\n\n') #Datum[1]'s format can be processed/changed here
                         #Data needs to be convertible to string
                 except Empty:
                     pass #Nothing to write, complete this write cycle
